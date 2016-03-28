@@ -1,0 +1,12 @@
+<% if @tweets %>
+  <h2>@<%= @username %>'s tweets</h2>
+  <ul>
+    <% for tweet in @tweets %>
+      <li>
+        <%= beautify(tweet.text) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <h2>@<%= @username %> has no tweets</h2>
+<% end %>

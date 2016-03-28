@@ -1,16 +1,30 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
+
+$(function(){
+  $('.popsover').hover(function(){
+    $this = $(this);
+
+    $this.data('hovering', true);
+
+    $.getJSON('/info/' + $(this).data('username'), function (json) {
+      if (!$this.data('hovering')) {
+        return
+      }
+
+      $this.popover({
+        title: json.screen_name,
+        content: '#' + json.tweets_count + ' tweets<br/> #' + json.followers_count + ' followers',
+        placement: 'bottom',
+        html: true,
+      }).popover('show');
+    });
+  }, function() {
+    $this = $(this);
+
+    $this.data('hovering', false);
+    $this.popover('hide');
+  });
+});
